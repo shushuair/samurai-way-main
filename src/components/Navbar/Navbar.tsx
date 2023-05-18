@@ -1,21 +1,22 @@
 import React from 'react';
+import s from './Navbar.module.css'
 
 export const Navbar = () => {
     return (
-        <nav className="nav">
-            <div>
+        <nav className={s.nav}>
+            <div className={s.item}>
                 Profile
             </div>
-            <div>
+            <div className={s.item}>
                 Messages
             </div>
-            <div>
+            <div className={`${s.item} ${s.active}`}>
                 News
             </div>
-            <div>
+            <div className={s.item}>
                 Music
             </div>
-            <div>
+            <div className={s.item}>
                 Settings
             </div>
         </nav>
