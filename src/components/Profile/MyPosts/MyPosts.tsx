@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
 
@@ -8,7 +8,7 @@ import {Post} from "./Post/Post";
 //     likeCount: number
 // }
 
-export const MyPosts = (props:any) => {
+export const MyPosts = (props: any) => {
 
     // let posts = [
     //     {id: 1, message: "Hi, how are you? ", likesCount: 10 },
@@ -17,21 +17,27 @@ export const MyPosts = (props:any) => {
     //     {id: 2, message: "wow ", likesCount: 5 },
     // ]
 
-    let postsElements = props.posts.map ((el:any) => <Post message={el.message} likesCount={el.likesCount} />)
+    let postsElements = props.posts.map((el: any) => <Post message={el.message} likesCount={el.likesCount}/>)
+    let newPostElement = useRef<HTMLTextAreaElement>(null)
 
 
-let addPost = () => {
-        alert("asda.co.uk")
-}
+    let addPost = () => {
+
+        if (newPostElement.current !== null) {
+            props.addPost(newPostElement.current.value)
+            newPostElement.current.value = ""
+        }
+
+    }
     return (
         <div className={s.postsBlock}>
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea></textarea>
+                    <textarea ref={newPostElement}></textarea>
                 </div>
                 <div>
-                    <button onClick={ addPost }>Add post</button>
+                    <button onClick={addPost}>Add post</button>
                 </div>
             </div>
             <div className={s.posts}>
