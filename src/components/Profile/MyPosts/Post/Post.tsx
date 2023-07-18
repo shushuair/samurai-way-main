@@ -9,7 +9,7 @@ export const Post = (props:any) => {
                 alt="img"/>
             {props.message}
             <div>
-                <span>Count: {props.count}</span>
+                <span>Count: {props.likesCount}</span>
             </div>
         </div>
     )
