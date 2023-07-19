@@ -1,13 +1,26 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import s from "./Dialogs.module.css"
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message"
+import state, {DialogsType, MessageType, StateType} from "../../redux/state";
+
+export type DialogsPropsType = {
+    state: StateType
+    addMessage: () => void
+    addMessageValue: (value: string) => void
+}
 
 
+export const Dialogs = (props: DialogsPropsType) => {
+    let dialogsElements = props.state.dialogsPage.dialogs.map((el: DialogsType) => <DialogItem name={el.name} id={el.id}/>);
+    let messagesElements = props.state.dialogsPage.messages.map((el: MessageType) => <Message message={el.message}/>)
 
-export const Dialogs = (props: any) => {
-    let dialogsElements = props.state.dialogs.map((el:any) => <DialogItem name={el.name} id={el.id}/>);
-    let messagesElements = props.state.messages.map((el:any) => <Message message={el.message}/>)
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        props.addMessageValue(e.currentTarget.value)
+    }
+    const addMessageButton = () => {
+        props.addMessage()
+    }
 
     return (
         <div className={s.dialogs}>
@@ -15,16 +28,20 @@ export const Dialogs = (props: any) => {
                 {dialogsElements}
 
             </div>
-            <div className="s.messages">
-                {messagesElements}
+            <div>
+                <div className="s.messages">
+                    {messagesElements}
+                </div>
+                <div>
+                    <input value={state.dialogsPage.newMessageText} onChange={onChangeHandler}/>
+                    <button onClick={addMessageButton}>Add message</button>
+                </div>
             </div>
+
+
         </div>
     );
 };
-
-
-
-
 
 
 // let dialogs = [
