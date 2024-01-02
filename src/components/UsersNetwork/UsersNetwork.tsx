@@ -8,13 +8,10 @@ import {UserCard} from "../UserCard/UserCard";
 
 export const UsersNetwork = () => {
     const dispatch = useAppDispatch()
-
+    const users = useSelector<AppRootState, User[]>(state => state.usersStore.users)
     useEffect(() => {
         dispatch(usersThunks.getUsers())
     }, []);
-
-    const users = useSelector<AppRootState, User[]>(state => state.usersStore.users)
-
 
     return (
         <div>

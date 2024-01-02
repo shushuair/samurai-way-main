@@ -40,7 +40,7 @@ const slice = createSlice({
 //         dispatch(appActions.setAppStatus({status: "loading"}))
 //
 //         try {
-//             const res = await usersApi.getUsers(arg)
+//             const res = await usersApi.getUsers()
 //             dispatch(appActions.setAppStatus({status: "succeeded"}))
 //             return {users: res.data}
 //         } catch (e) {
