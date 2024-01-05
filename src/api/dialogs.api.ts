@@ -1,5 +1,5 @@
-import {instance} from "./instance";
-import {BaseResponse} from "./typeApi";
+import {BaseResponse} from "../common";
+import {instance} from "../common";
 
 export const dialogsApi = {
     getAllDialogs(){

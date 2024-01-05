@@ -1,5 +1,5 @@
-import {instance} from "./instance";
-import {BaseResponse, Photos, UserProfile} from "./typeApi";
+import {instance} from "../common/api/instance";
+import {BaseResponse, Photos, UserProfile} from "../common/types/typeApi";
 
 export const profileApi = {
     getStatus(userId: number){
