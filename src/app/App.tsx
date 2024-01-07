@@ -1,16 +1,16 @@
 import React from "react";
-import "./App.css";
-import { UsersNetwork } from "features";
+import "app/App.css";
 import { useSelector } from "react-redux";
-import { AppRootState } from "./store";
+import { AppRootState } from "app/store";
 import { useAppDispatch } from "common";
+import { UsersNetwork } from "features";
 
 export function App() {
-    const isLoggedIn = useSelector<AppRootState, boolean>(state => state.auth.isLoggedIn)
-    const dispatch = useAppDispatch()
-    // useEffect(() => {
-    //     dispatch(authThunk.me())
-    // }, []);
+  const isLoggedIn = useSelector<AppRootState, boolean>((state) => state.auth.isLoggedIn);
+  const dispatch = useAppDispatch();
+  // useEffect(() => {
+  //     dispatch(authThunk.me())
+  // }, []);
 
   return (
     <div className="App">
@@ -18,5 +18,3 @@ export function App() {
     </div>
   );
 }
-
-

@@ -1,12 +1,12 @@
 .usersWrapper {
-    margin: 20px;
-    width: 300px;
+  margin: 20px;
+  width: 300px;
 }
 
 .followUserButton {
-    margin: 20px;
+  margin: 20px;
 }
 
 .avatarPhoto {
-    max-width: 25%;
+  max-width: 25%;
 }
