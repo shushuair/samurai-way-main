@@ -1,27 +1,27 @@
-import React, { useEffect } from "react";
+import React from "react";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select, {SelectChangeEvent} from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import {useAppDispatch} from "common";
+import {appActions, FilterUsersType} from "app";
 
-import { useSelector } from "react-redux";
-import { useAppDispatch } from "common";
-import { AppRootState } from "app/store";
-import { appActions, FilterUsersType } from "app";
-import { usersThunks } from "features";
+export type UsersFilterProps = {
+  initialValueFilterUsers: FilterUsersType
+}
 
-export const UsersFilter = () => {
+export const UsersFilter = (props: UsersFilterProps) => {
   const dispatch = useAppDispatch();
-  const initialValueFilterUsers = useSelector<AppRootState, FilterUsersType>((state) => state.app.filterUsers);
+  const  {initialValueFilterUsers} = props
 
   const onChangeFilterUsersHandler = (event: SelectChangeEvent) => {
     const newValue = event.target.value as FilterUsersType;
     dispatch(appActions.setFilterUsers({ filterUsers: newValue }));
   };
 
-  useEffect(() => {
-    dispatch(usersThunks.getUsers({ friend: initialValueFilterUsers === "followed" ? true : undefined }));
-  }, [initialValueFilterUsers]);
+  // useEffect(() => {
+  //   dispatch(usersThunks.getUsers({ friend: initialValueFilterUsers === "followed" ? true : undefined }));
+  // }, [initialValueFilterUsers]);
   return (
     <div>
       <FormControl sx={{ m: 1, minWidth: 80 }}>
