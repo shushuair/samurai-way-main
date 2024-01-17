@@ -61,11 +61,12 @@ export type Contacts = {
 };
 
 export type UserProfile = {
-    userId: number;
+    userId: Nullable<number>;
     lookingForAJob: boolean;
     lookingForAJobDescription: string;
     fullName: string;
     contacts: Contacts;
+    photos: Photos
     aboutMe: string;
 };
 

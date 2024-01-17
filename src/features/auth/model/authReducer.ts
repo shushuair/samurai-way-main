@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { CreateAppAsyncThunk, LoginRequest, ResultCode } from "common";
+import {CreateAppAsyncThunk, DataMeResponse, LoginRequest, ResultCode} from "common";
 import { authApi } from "features";
 import { appActions } from "app";
 
@@ -25,12 +25,12 @@ const logout = CreateAppAsyncThunk<{ isLoggedIn: boolean }, void>("auth/logout",
   }
 });
 
-const me = CreateAppAsyncThunk<{ isLoggedIn: boolean }, void>("auth/me", async (_, thunkAPI) => {
+const me = CreateAppAsyncThunk<{ isLoggedIn: boolean, data: DataMeResponse }, void>("auth/me", async (_, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
   const res = await authApi.me();
   try {
     if (res.data.resultCode === ResultCode.Success) {
-      return { isLoggedIn: true };
+      return { isLoggedIn: true, data: res.data.data };
     } else {
       return rejectWithValue({ data: res.data });
     }
@@ -50,6 +50,7 @@ const slice = createSlice({
   name: "auth",
   initialState: {
     isLoggedIn: false,
+    // isLoading: true,
     urlCaptcha: "",
   },
   reducers: {},
@@ -57,14 +58,19 @@ const slice = createSlice({
     builder
       .addCase(login.fulfilled, (state, action) => {
         state.isLoggedIn = action.payload.isLoggedIn;
-        state.urlCaptcha = "";
+        // state.urlCaptcha = "";
       })
       .addCase(logout.fulfilled, (state, action) => {
         state.isLoggedIn = action.payload.isLoggedIn;
       })
       .addCase(me.fulfilled, (state, action) => {
         state.isLoggedIn = action.payload.isLoggedIn;
+        // state.isLoading = false;
       })
+        // .addCase(me.rejected, (state, action) => {
+        //   state.isLoggedIn = false;
+        //   state.isLoading = false;
+        // })
       .addCase(getCaptcha.fulfilled, (state, action) => {
         state.urlCaptcha = action.payload.urlCaptcha;
       });

@@ -1,2 +1,2 @@
 export { dialogsApi } from "./dialogs.api";
-export { profileApi } from "./profile.api";
+export { profileApi } from "../features/profile/api/profile.api";

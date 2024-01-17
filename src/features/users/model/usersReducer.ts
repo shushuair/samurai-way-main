@@ -10,9 +10,8 @@ import {
 import {appActions, RequestStatusType} from "app";
 import {usersApi} from "features";
 
-type EntityStatus = "idle" | "loading" | "succeeded" | "failed";
 export type DomainUser = User & {
-    entityStatus: EntityStatus;
+    entityStatus: RequestStatusType;
 };
 //entityStatus to disable button follow/unfollow when click by mistake twice
 const slice = createSlice({
