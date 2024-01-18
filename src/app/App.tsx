@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { AppRootState } from "app/store";
 import { useAppDispatch } from "common";
 import { authThunk } from "features";
-import { Profile } from "features";
+import { ProfilePage } from "features";
 
 export function App() {
   const isLoggedIn = useSelector<AppRootState, boolean>((state) => state.auth.isLoggedIn);
@@ -25,7 +25,7 @@ export function App() {
 
   return (
     <div className="App">
-      <Profile />
+      <ProfilePage />
     </div>
   );
 }

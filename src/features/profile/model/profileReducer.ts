@@ -11,11 +11,11 @@ import {
 } from "common";
 
 import { RequestStatusType } from "app";
-import { authThunk } from "features";
-import { profileApi } from "features";
+import { authThunk, profileApi } from "features";
 
 const initialState = {
   myId: null as Nullable<number>,
+  myStatus: "",
   entityStatus: "idle",
   userProfile: {
     userId: null as Nullable<number>,
@@ -51,9 +51,46 @@ const slice = createSlice({
       })
       .addCase(profileThunks.updateAvatar.fulfilled, (state, action) => {
         state.userProfile.photos = action.payload.photos;
+      })
+      .addCase(profileThunks.updateStatus.fulfilled, (state, action) => {
+        state.myStatus = action.payload.status;
+      })
+      .addCase(profileThunks.getStatus.fulfilled, (state, action) => {
+        state.myStatus = action.payload.status;
       });
   },
 });
+
+const getStatus = CreateAppAsyncThunk<{ status: string }, Nullable<number>>(
+  "profile/getStatus",
+  async (userId, thunkAPI) => {
+    const { rejectWithValue, dispatch } = thunkAPI;
+    try {
+      const res = await profileApi.getStatus(userId);
+      return { status: res.data };
+    } catch (e) {
+      return rejectWithValue(null);
+    }
+  },
+);
+
+const updateStatus = CreateAppAsyncThunk<{ status: string }, string>(
+  "profile/updateStatus",
+  async (status: string, thunkAPI) => {
+    const { rejectWithValue, dispatch } = thunkAPI;
+    try {
+      const res = await profileApi.updateStatus(status);
+      if (res.data.resultCode === ResultCode.Success) {
+        return { status };
+      } else {
+        handleServerAppError(res.data, dispatch);
+        return rejectWithValue(null);
+      }
+    } catch (e) {
+      return rejectWithValue(null);
+    }
+  },
+);
 
 const getProfile = CreateAppAsyncThunk<{ data: UserProfile }, number>(
   "profile/getProfile",
@@ -89,4 +126,4 @@ const updateAvatar = CreateAppAsyncThunk<{ photos: Photos }, File>(
 export const profileReducer = slice.reducer;
 export const profileActions = slice.actions;
 
-export const profileThunks = { getProfile, updateAvatar };
+export const profileThunks = { getProfile, updateAvatar, updateStatus, getStatus };

@@ -1,0 +1,15 @@
+.avatarContainer {
+    /*text-align: center;*/
+    /*margin-bottom: 20px;*/
+    width: 100%;
+}
+
+.avatarImage {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.inputFile {
+    display: none;
+}
