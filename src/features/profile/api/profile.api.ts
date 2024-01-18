@@ -14,7 +14,7 @@ export const profileApi = {
     return instance.put<BaseResponse>("profile", domainModel);
   },
   updateMyProfileAvatar(photo: File) {
-    let formData = new FormData()
+    const formData = new FormData()
     formData.append('image', photo)
     return instance.put<BaseResponse<{ photos: Photos }>>("profile/photo", formData,
         {headers: {"Content-Type": "multipart/form-data"}});

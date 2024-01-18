@@ -6,3 +6,7 @@ export { followApi } from "./users/api/follow.api";
 export { authApi } from "./auth/api/auth.api";
 export { authReducer } from "./auth/model/authReducer";
 export * from "./users/model/usersReducer";
+export { authThunk } from "./auth/model/authReducer";
+export * from "./profile/model/profileReducer";
+export * from "./profile/api/profile.api";
+export * from "./profile/ui/Profile/Profile";
