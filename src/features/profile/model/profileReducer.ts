@@ -12,11 +12,13 @@ import {
 
 import { RequestStatusType } from "app";
 import { authThunk, profileApi } from "features";
+import { UpdateModelProfile } from "common/types/utilTypes";
 
 const initialState = {
   myId: null as Nullable<number>,
   myStatus: "",
   entityStatus: "idle",
+  loading: false,
   userProfile: {
     userId: null as Nullable<number>,
     aboutMe: "",
@@ -105,6 +107,34 @@ const getProfile = CreateAppAsyncThunk<{ data: UserProfile }, number>(
     }
   },
 );
+
+const updateProfile = CreateAppAsyncThunk<void, UpdateModelProfile>("profile/updateProfile", async (item, thunkAPI) => {
+  const { rejectWithValue, dispatch, getState } = thunkAPI;
+  const state = getState();
+  const userId = state.profileStore.myId;
+  const modelUser = state.profileStore.userProfile;
+  const newModelUser = {
+    lookingForAJob: modelUser.lookingForAJob,
+    lookingForAJobDescription: "kjklj",
+    fullName: modelUser.fullName,
+    contacts: modelUser.contacts,
+    aboutMe: "kjklj",
+    ...item,
+  };
+  try {
+    const res = await profileApi.updateProfile(newModelUser);
+    if (res.data.resultCode === ResultCode.Success && userId) {
+      dispatch(getProfile(userId));
+    } else {
+      handleServerAppError(res.data, dispatch);
+      return rejectWithValue(null);
+    }
+  } catch (e) {
+    handleServerNetworkError(e, dispatch);
+    return rejectWithValue(null);
+  }
+});
+
 const updateAvatar = CreateAppAsyncThunk<{ photos: Photos }, File>(
   "profile/updateAvatar",
   async (image: File, thunkAPI) => {
@@ -123,7 +153,8 @@ const updateAvatar = CreateAppAsyncThunk<{ photos: Photos }, File>(
     }
   },
 );
+
 export const profileReducer = slice.reducer;
 export const profileActions = slice.actions;
 
-export const profileThunks = { getProfile, updateAvatar, updateStatus, getStatus };
+export const profileThunks = { getProfile, updateAvatar, updateStatus, getStatus, updateProfile };

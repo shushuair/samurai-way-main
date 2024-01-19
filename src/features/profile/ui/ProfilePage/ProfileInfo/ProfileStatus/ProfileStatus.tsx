@@ -12,7 +12,7 @@ export const ProfileStatus = () => {
   const status = useSelector<AppRootState, string>((state) => state.profileStore.myStatus);
   const userId = useSelector<AppRootState, Nullable<number>>((state) => state.profileStore.myId);
   if (status.trim() === "") {
-    textButton = "Add status";
+    textButton = "Add status!!!";
   } else {
     textButton = "Edit status";
   }
@@ -27,8 +27,7 @@ export const ProfileStatus = () => {
 
   return (
     <>
-      <h3>{status}</h3>
-      <EditableSpan title={textButton} onChange={newStatusHandler} oldStatus={status} />
+      <EditableSpan callback={newStatusHandler} oldValue={status} titleButton={textButton} />
     </>
   );
 };

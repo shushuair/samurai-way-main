@@ -9,6 +9,7 @@ import { ProfileInfo } from "features/profile/ui/ProfilePage/ProfileInfo/Profile
 export const ProfilePage = () => {
   const dispatch = useAppDispatch();
   const userProfileId = useSelector<AppRootState, Nullable<number>>((state) => state.profileStore.myId);
+
   const [editMode, setEditMode] = useState(false);
   useEffect(() => {
     if (userProfileId) {

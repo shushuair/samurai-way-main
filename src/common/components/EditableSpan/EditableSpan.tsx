@@ -1,46 +1,52 @@
 import { ChangeEvent, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { dividerClasses } from "@mui/material";
 
 type EditableSpanType = {
-  title: string;
-  onChange: (newTitle: string) => void;
-  oldStatus: string;
+  callback: (newTitle: string) => void;
+  oldValue: string;
+  titleButton: string;
 };
 
-export const EditableSpan = ({ title, onChange, oldStatus }: EditableSpanType) => {
+export const EditableSpan = ({ callback, oldValue, titleButton }: EditableSpanType) => {
   const [editMode, setEditMode] = useState(false);
-  const [newTitle, setNewTitle] = useState(title);
+  const [newTitle, setNewTitle] = useState(oldValue);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.currentTarget.value.length <= 300) setNewTitle(e.currentTarget.value);
+    setNewTitle(e.currentTarget.value);
   };
 
   const onBlurHandler = () => {
-    onChange(newTitle);
     setEditMode(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      onBlurHandler();
+      callback(newTitle);
+      setEditMode(false);
     }
+  };
+  const editModeClickHandler = () => {
+    setEditMode(true);
   };
 
   return editMode ? (
     <TextField
-      defaultValue={oldStatus}
       onChange={onChangeHandler}
       onBlur={onBlurHandler}
       onKeyDown={handleKeyDown}
       autoFocus={true}
-      value={newTitle}
       id="outlined-multiline-flexible"
       label="Multiline"
       multiline
       maxRows={4}
+      defaultValue={oldValue}
     />
   ) : (
-    <Button onClick={() => setEditMode(true)}>{title ? title : "Click to add your status"}</Button>
+    <>
+      <h3>{oldValue}</h3>
+      <Button onClick={editModeClickHandler}>{titleButton}</Button>
+    </>
   );
 };

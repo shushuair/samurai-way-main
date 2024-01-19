@@ -1,4 +1,4 @@
-import { BaseResponse, instance, Nullable, Photos, UserProfile } from "common";
+import { BaseResponse, Contacts, instance, Nullable, Photos, UserProfile } from "common";
 
 export const profileApi = {
   getProfile(userId: number) {
@@ -10,7 +10,7 @@ export const profileApi = {
   updateStatus(status: string) {
     return instance.put<BaseResponse>("profile/status", { status });
   },
-  updateProfile(domainModel: Omit<Omit<UserProfile, "userId">, "photos">) {
+  updateProfile(domainModel: ProfileUpdateModel) {
     return instance.put<BaseResponse>("profile", domainModel);
   },
   updateMyProfileAvatar(photo: File) {
@@ -20,4 +20,12 @@ export const profileApi = {
       headers: { "Content-Type": "multipart/form-data" },
     });
   },
+};
+
+export type ProfileUpdateModel = {
+  lookingForAJob: boolean;
+  lookingForAJobDescription: string;
+  fullName: string;
+  contacts: Contacts;
+  aboutMe: string;
 };
