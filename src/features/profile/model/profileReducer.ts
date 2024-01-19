@@ -18,7 +18,6 @@ const initialState = {
   myId: null as Nullable<number>,
   myStatus: "",
   entityStatus: "idle",
-  loading: false,
   userProfile: {
     userId: null as Nullable<number>,
     aboutMe: "",
@@ -66,7 +65,7 @@ const slice = createSlice({
 const getStatus = CreateAppAsyncThunk<{ status: string }, Nullable<number>>(
   "profile/getStatus",
   async (userId, thunkAPI) => {
-    const { rejectWithValue, dispatch } = thunkAPI;
+    const { rejectWithValue } = thunkAPI;
     try {
       const res = await profileApi.getStatus(userId);
       return { status: res.data };
@@ -110,15 +109,16 @@ const getProfile = CreateAppAsyncThunk<{ data: UserProfile }, number>(
 
 const updateProfile = CreateAppAsyncThunk<void, UpdateModelProfile>("profile/updateProfile", async (item, thunkAPI) => {
   const { rejectWithValue, dispatch, getState } = thunkAPI;
+  console.log(item);
   const state = getState();
   const userId = state.profileStore.myId;
   const modelUser = state.profileStore.userProfile;
   const newModelUser = {
     lookingForAJob: modelUser.lookingForAJob,
-    lookingForAJobDescription: "kjklj",
+    lookingForAJobDescription: modelUser.lookingForAJobDescription,
     fullName: modelUser.fullName,
     contacts: modelUser.contacts,
-    aboutMe: "kjklj",
+    aboutMe: modelUser.aboutMe,
     ...item,
   };
   try {

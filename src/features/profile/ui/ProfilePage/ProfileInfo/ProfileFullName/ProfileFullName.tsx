@@ -2,10 +2,8 @@ import s from "features/profile/ui/ProfilePage/ProfileInfo/ProfileFullName/Profi
 import { useAppDispatch } from "common";
 import { useSelector } from "react-redux";
 import { AppRootState } from "app/store";
-import EditIcon from "@mui/icons-material/Edit";
 import { profileThunks } from "features/profile/model/profileReducer";
 import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
-import { useState } from "react";
 
 export const ProfileFullName = () => {
   const oldValue = useSelector<AppRootState, string>((state) => state.profileStore.userProfile.fullName);
@@ -13,6 +11,7 @@ export const ProfileFullName = () => {
   const dispatch = useAppDispatch();
 
   const changeFullNameHandler = (newValue: string) => {
+    console.log(newValue);
     dispatch(profileThunks.updateProfile({ fullName: newValue }));
   };
   return (
