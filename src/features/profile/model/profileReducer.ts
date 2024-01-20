@@ -24,7 +24,16 @@ const initialState = {
     lookingForAJob: false,
     lookingForAJobDescription: "",
     fullName: "",
-    contacts: {} as Contacts,
+    contacts: {
+      facebook: "",
+      website: "",
+      vk: "",
+      twitter: "",
+      instagram: "",
+      youtube: "",
+      github: "",
+      mainLink: "",
+    },
     photos: {
       small: "",
       large: "",
