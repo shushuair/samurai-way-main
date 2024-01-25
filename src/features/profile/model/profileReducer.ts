@@ -1,6 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import {
-  Contacts,
   CreateAppAsyncThunk,
   handleServerAppError,
   handleServerNetworkError,
@@ -8,11 +7,11 @@ import {
   Photos,
   ResultCode,
   UserProfile,
-} from "common";
+} from "common"
 
-import { RequestStatusType } from "app";
-import { authThunk, profileApi } from "features";
-import { UpdateModelProfile } from "common/types/utilTypes";
+import { RequestStatusType } from "app"
+import { authThunk, profileApi } from "features"
+import { UpdateModelProfile } from "common/types/utilTypes"
 
 const initialState = {
   myId: null as Nullable<number>,
@@ -39,89 +38,88 @@ const initialState = {
       large: "",
     } as Photos,
   },
-};
+}
 export type DomainProfile = UserProfile & {
-  entityStatus: RequestStatusType;
-};
+  entityStatus: RequestStatusType
+}
 const slice = createSlice({
   name: "Profile",
   initialState,
   reducers: {
     setEntityStatus: (state, action: PayloadAction<{ entityStatus: RequestStatusType }>) => {
-      state.entityStatus = action.payload.entityStatus;
+      state.entityStatus = action.payload.entityStatus
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(authThunk.me.fulfilled, (state, action) => {
-        state.myId = action.payload.data.id;
+        state.myId = action.payload.data.id
       })
       .addCase(profileThunks.getProfile.fulfilled, (state, action) => {
-        state.userProfile = action.payload.data;
+        state.userProfile = action.payload.data
       })
       .addCase(profileThunks.updateAvatar.fulfilled, (state, action) => {
-        state.userProfile.photos = action.payload.photos;
+        state.userProfile.photos = action.payload.photos
       })
       .addCase(profileThunks.updateStatus.fulfilled, (state, action) => {
-        state.myStatus = action.payload.status;
+        state.myStatus = action.payload.status
       })
       .addCase(profileThunks.getStatus.fulfilled, (state, action) => {
-        state.myStatus = action.payload.status;
-      });
+        state.myStatus = action.payload.status
+      })
   },
-});
-
+})
 const getStatus = CreateAppAsyncThunk<{ status: string }, Nullable<number>>(
   "profile/getStatus",
   async (userId, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
     try {
-      const res = await profileApi.getStatus(userId);
-      return { status: res.data };
+      const res = await profileApi.getStatus(userId)
+      return { status: res.data }
     } catch (e) {
-      return rejectWithValue(null);
+      return rejectWithValue(null)
     }
   },
-);
+)
 
 const updateStatus = CreateAppAsyncThunk<{ status: string }, string>(
   "profile/updateStatus",
   async (status: string, thunkAPI) => {
-    const { rejectWithValue, dispatch } = thunkAPI;
+    const { rejectWithValue, dispatch } = thunkAPI
     try {
-      const res = await profileApi.updateStatus(status);
+      const res = await profileApi.updateStatus(status)
       if (res.data.resultCode === ResultCode.Success) {
-        return { status };
+        return { status }
       } else {
-        handleServerAppError(res.data, dispatch);
-        return rejectWithValue(null);
+        handleServerAppError(res.data, dispatch)
+        return rejectWithValue(null)
       }
     } catch (e) {
-      return rejectWithValue(null);
+      return rejectWithValue(null)
     }
   },
-);
+)
 
 const getProfile = CreateAppAsyncThunk<{ data: UserProfile }, number>(
   "profile/getProfile",
   async (userId, thunkAPI) => {
-    const { rejectWithValue, dispatch } = thunkAPI;
+    const { rejectWithValue, dispatch } = thunkAPI
     try {
-      const res = await profileApi.getProfile(userId);
-      return { data: res.data };
+      const res = await profileApi.getProfile(userId)
+      return { data: res.data }
     } catch (e: any) {
-      handleServerNetworkError(e.message, dispatch);
-      return rejectWithValue(null);
+      handleServerNetworkError(e.message, dispatch)
+      return rejectWithValue(null)
     }
   },
-);
+)
 
 const updateProfile = CreateAppAsyncThunk<void, UpdateModelProfile>("profile/updateProfile", async (item, thunkAPI) => {
-  const { rejectWithValue, dispatch, getState } = thunkAPI;
-  console.log(item);
-  const state = getState();
-  const userId = state.profileStore.myId;
-  const modelUser = state.profileStore.userProfile;
+  const { rejectWithValue, dispatch, getState } = thunkAPI
+  console.log(item)
+  const state = getState()
+  const userId = state.profileStore.myId
+  const modelUser = state.profileStore.userProfile
   const newModelUser = {
     lookingForAJob: modelUser.lookingForAJob,
     lookingForAJobDescription: modelUser.lookingForAJobDescription,
@@ -129,41 +127,41 @@ const updateProfile = CreateAppAsyncThunk<void, UpdateModelProfile>("profile/upd
     contacts: modelUser.contacts,
     aboutMe: modelUser.aboutMe,
     ...item,
-  };
+  }
   try {
-    const res = await profileApi.updateProfile(newModelUser);
+    const res = await profileApi.updateProfile(newModelUser)
     if (res.data.resultCode === ResultCode.Success && userId) {
-      dispatch(getProfile(userId));
+      dispatch(getProfile(userId))
     } else {
-      handleServerAppError(res.data, dispatch);
-      return rejectWithValue(null);
+      handleServerAppError(res.data, dispatch)
+      return rejectWithValue(null)
     }
   } catch (e) {
-    handleServerNetworkError(e, dispatch);
-    return rejectWithValue(null);
+    handleServerNetworkError(e, dispatch)
+    return rejectWithValue(null)
   }
-});
+})
 
 const updateAvatar = CreateAppAsyncThunk<{ photos: Photos }, File>(
   "profile/updateAvatar",
   async (image: File, thunkAPI) => {
-    const { rejectWithValue, dispatch } = thunkAPI;
+    const { rejectWithValue, dispatch } = thunkAPI
     try {
-      const res = await profileApi.updateMyProfileAvatar(image);
+      const res = await profileApi.updateMyProfileAvatar(image)
       if (res.data.resultCode === ResultCode.Success) {
-        return { photos: res.data.data.photos };
+        return { photos: res.data.data.photos }
       } else {
-        handleServerAppError(res.data, dispatch);
-        return rejectWithValue(null);
+        handleServerAppError(res.data, dispatch)
+        return rejectWithValue(null)
       }
     } catch (e) {
-      handleServerNetworkError(e, dispatch);
-      return rejectWithValue(null);
+      handleServerNetworkError(e, dispatch)
+      return rejectWithValue(null)
     }
   },
-);
+)
 
-export const profileReducer = slice.reducer;
-export const profileActions = slice.actions;
+export const profileReducer = slice.reducer
+export const profileActions = slice.actions
 
-export const profileThunks = { getProfile, updateAvatar, updateStatus, getStatus, updateProfile };
+export const profileThunks = { getProfile, updateAvatar, updateStatus, getStatus, updateProfile }

@@ -1,35 +1,35 @@
-import { ChangeEvent, useState } from "react";
-import TextField from "@mui/material/TextField";
+import { ChangeEvent, useState } from "react"
+import TextField from "@mui/material/TextField"
 
-type EditableImgType = {
-  callback: (newTitle: string, alt: string) => void;
-  oldUrl: string;
-  className: string;
-  src: string;
-  alt: string;
-};
+type EditableSpanImgType = {
+  callback: (newTitle: string, alt: string) => void
+  oldUrl: string
+  className: string
+  src: string
+  alt: string
+}
 
-export const EditableImg = ({ callback, oldUrl, src, alt, className }: EditableImgType) => {
-  const [editMode, setEditMode] = useState(false);
-  const [newTitle, setNewTitle] = useState(oldUrl);
+export const EditableSpanImg = ({ callback, oldUrl, src, alt, className }: EditableSpanImgType) => {
+  const [editMode, setEditMode] = useState(false)
+  const [newTitle, setNewTitle] = useState(oldUrl)
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewTitle(e.currentTarget.value);
-  };
+    setNewTitle(e.currentTarget.value)
+  }
 
   const onBlurHandler = () => {
-    setEditMode(false);
-  };
+    setEditMode(false)
+  }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      callback(newTitle, alt);
-      setEditMode(false);
+      callback(newTitle, alt)
+      setEditMode(false)
     }
-  };
+  }
   const editModeClickHandler = () => {
-    setEditMode(true);
-  };
+    setEditMode(true)
+  }
 
   return editMode ? (
     <TextField
@@ -46,5 +46,5 @@ export const EditableImg = ({ callback, oldUrl, src, alt, className }: EditableI
     <>
       <img onClick={editModeClickHandler} src={src} alt={alt} className={src ? "" : className} />
     </>
-  );
-};
+  )
+}

@@ -1,16 +1,17 @@
-export { UserCard } from "./users/ui/UserCard/UserCard";
-export { UsersNetwork } from "./users/ui/UsersNetwork/UsersNetwork";
-export { UsersFilter } from "./users/ui/UsersNetwork/UsersFilter/UsersFilter";
-export { usersApi } from "./users/api/users.api";
-export { followApi } from "./users/api/follow.api";
-export { authApi } from "./auth/api/auth.api";
-export { authReducer } from "./auth/model/authReducer";
-export * from "./users/model/usersReducer";
-export { authThunk } from "./auth/model/authReducer";
-export * from "./profile/model/profileReducer";
-export * from "./profile/api/profile.api";
-export * from "./profile/ui/ProfilePage/ProfilePage";
-export * from "./profile/ui/ProfilePage/ProfileInfo/ProfileAvatar/ProfileAvatar";
-export * from "./profile/ui/ProfilePage/ProfileInfo/ProfileFullName/ProfileFullName";
-export * from "./profile/ui/ProfilePage/ProfileInfo/ProfileSocNetworks/ProfileSocNetworks";
-export * from "./profile/ui/ProfilePage/ProfileInfo/Clock/Clock";
+export { UserCard } from "./users/ui/UserCard/UserCard"
+export { UsersNetwork } from "./users/ui/UsersNetwork/UsersNetwork"
+export { UsersFilter } from "./users/ui/UsersNetwork/UsersFilter/UsersFilter"
+export { usersApi } from "./users/api/users.api"
+export { followApi } from "./users/api/follow.api"
+export { authApi } from "./auth/api/auth.api"
+export { authReducer } from "./auth/model/authReducer"
+export * from "./users/model/usersReducer"
+export { authThunk } from "./auth/model/authReducer"
+export * from "./profile/model/profileReducer"
+export * from "./profile/api/profile.api"
+export * from "./profile/ui/ProfilePage/ProfilePage"
+export * from "./profile/ui/ProfilePage/ProfileInfo/ProfileAvatar/ProfileAvatar"
+export * from "./profile/ui/ProfilePage/ProfileInfo/ProfileFullName/ProfileFullName"
+export * from "./profile/ui/ProfilePage/ProfileInfo/ProfileSocNetworks/ProfileSocNetworks"
+export * from "./profile/ui/ProfilePage/ProfileInfo/Clock/Clock"
+export * from "./users/ui/UsersNetwork/CustomPagination/CustomPagination"
